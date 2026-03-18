@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment</title>
+
+<style>
+body{
+margin:0;
+font-family:Gill Sans;
+background: linear-gradient(135deg,#89c6c6,#e1eaea,#c3f0f0);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:20px;
+width:320px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+input, select{
+width:90%;
+padding:8px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:10px;
+background: linear-gradient(45deg,#00c9ff,#92fe9d);
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+background: linear-gradient(45deg,#00aaff,#6ee7a0);
+}
+
+.hidden{
+display:none;
+}
+
+.upi-options img{
+width:60px;
+margin:10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>💳 Payment</h2>
+
+<!-- Payment Method -->
+<select onchange="showPayment(this.value)">
+<option value="">Select Payment Method</option>
+<option value="online">Online Payment</option>
+<option value="offline">Cash on Delivery</option>
+</select>
+
+<!-- Online Payment Section -->
+<div id="onlineSection" class="hidden">
+
+<h4>Select UPI App</h4>
+
+<div class="upi-options">
+<img src="image/gpay.jpg" onclick="selectUPI('Google Pay')">
+<img src="image/phonepe.png" onclick="selectUPI('PhonePe')">
+<img src="image/paytm.png" onclick="selectUPI('Paytm')">
+</div>
+
+<input type="text" placeholder="Enter UPI ID" id="upiId">
+
+</div>
+
+<!-- Offline Section -->
+<div id="offlineSection" class="hidden">
+<p>💵 You selected Cash on Delivery</p>
+</div>
+
+<button onclick="payNow()">Pay Now</button>
+
+</div>
+
+<script>
+
+let paymentType = "";
+let selectedUPI = "";
+
+function showPayment(type){
+paymentType = type;
+
+document.getElementById("onlineSection").classList.add("hidden");
+document.getElementById("offlineSection").classList.add("hidden");
+
+if(type === "online"){
+document.getElementById("onlineSection").classList.remove("hidden");
+}
+else if(type === "offline"){
+document.getElementById("offlineSection").classList.remove("hidden");
+}
+}
+
+function selectUPI(app){
+selectedUPI = app;
+alert("Selected: " + app);
+}
+
+function payNow(){
+
+if(paymentType === ""){
+alert("Please select payment method!");
+return;
+}
+
+if(paymentType === "online"){
+let upi = document.getElementById("upiId").value;
+
+if(upi === "" || selectedUPI === ""){
+alert("Enter UPI ID and select UPI app!");
+return;
+}
+
+alert("🎉 Payment Successful via " + selectedUPI);
+}
+
+if(paymentType === "offline"){
+alert("✅ Order placed with Cash on Delivery");
+}
+
+localStorage.removeItem("cart");
+window.location.href="index.html";
+}
+
+</script>
+
+</body>
+</html>

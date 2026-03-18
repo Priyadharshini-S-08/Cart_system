@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact</title>
+
+<style>
+body{
+margin:0;
+font-family:Gill Sans;
+background: linear-gradient(135deg,#89c6c6,#e1eaea,#c3f0f0);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.box{
+background:white;
+padding:30px;
+border-radius:20px;
+text-align:center;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+button{
+margin-top:15px;
+padding:10px;
+background:teal;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{background:#006666;}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>📞 Contact Us</h2>
+<p>Email: mrcake@gmail.com</p>
+<p>Phone: 9876543210</p>
+
+<button onclick="goHome()">⬅ Back to Home</button>
+</div>
+
+<script>
+function goHome(){
+window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>

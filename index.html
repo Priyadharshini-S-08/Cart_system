@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mr.Cake</title>
+
+<style>
+body{
+margin:0;
+font-family:Gill Sans;
+background: linear-gradient(135deg,#89c6c6,#e1eaea,#c3f0f0);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
+}
+
+h2{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.logo-box{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo-box img{
+width:45px;
+height:45px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid white;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+header{
+display:flex;
+align-items:center;
+background:linear-gradient(to right,#5f9ea0,#89c6c6);
+padding:10px;
+}
+
+nav{margin-left:auto;}
+nav ul{display:flex;gap:20px;}
+nav li{
+list-style:none;
+padding:8px 12px;
+border-radius:10px;
+background:white;
+}
+nav li a{text-decoration:none;color:black;}
+nav li:hover{background:#006666;}
+nav li:hover a{color:white;}
+
+.menu{
+text-align:center;
+padding:10px;
+}
+
+.menu button{
+margin:5px;
+padding:8px 15px;
+border:none;
+border-radius:10px;
+background:teal;
+color:white;
+cursor:pointer;
+}
+
+.menu button:hover{
+background:#006666;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:10px;
+border-radius:20px;
+text-align:center;
+border:2px dashed black;
+}
+
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+button{
+margin-top:10px;
+padding:5px 10px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo-box">
+    <img src="image/logo.png" alt="Mr.Cake Logo">
+    <h2>Mr.Cake</h2>
+</div>
+<nav>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="cart.html">Cart</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</nav>
+</header>
+
+<!-- CATEGORY MENU -->
+<div class="menu">
+<button onclick="filter('all')">All</button>
+<button onclick="filter('chocolate')">Chocolate Cakes</button>
+<button onclick="filter('fruit')">Fruit Cakes</button>
+<button onclick="filter('special')">Special Cakes</button>
+<button onclick="filter('brownie')">Brownies</button>
+</div>
+
+<div class="container" id="cakes"></div>
+
+<script>
+const cakes=[
+
+// 🍫 Chocolate Cakes
+{name:"Black Forest",price:500,category:"chocolate",img:"image/black forest.jpg"},
+{name:"Chocolate Truffle",price:650,category:"chocolate",img:"image/chocolate_truffle.jpg"},
+{name:"Dark Chocolate Cake",price:700,category:"chocolate",img:"image/dark chocolate.jpg"},
+{name:"Choco Lava Cake",price:550,category:"chocolate",img:"image/larva.jpg"},
+
+// 🍓 Fruit Cakes
+{name:"Strawberry Cake",price:450,category:"fruit",img:"image/strawberry.jpg"},
+{name:"Pineapple Cake",price:400,category:"fruit",img:"image/pineapple2.jpg"},
+{name:"Mango Delight Cake",price:480,category:"fruit",img:"image/mango1.jpg"},
+{name:"Blueberry Cake",price:520,category:"fruit",img:"image/blueberry.jpg"},
+
+// ⭐ Special Cakes
+{name:"Red Velvet",price:550,category:"special",img:"image/red velvet.jpg"},
+{name:"Rasamalai Cake",price:600,category:"special",img:"image/rasamalai.jpg"},
+{name:"Butterscotch Cake",price:500,category:"special",img:"image/butterscotch.jpg"},
+{name:"KitKat Cake",price:750,category:"special",img:"image/kit kat.jpg"},
+
+// 🍫 Brownies
+{name:"Chocolate Brownie",price:200,category:"brownie",img:"image/choco brownie.jpg"},
+{name:"Walnut Brownie",price:250,category:"brownie",img:"image/walnet brownie.jpg"},
+{name:"Fudge Brownie",price:300,category:"brownie",img:"image/fudge.jpg"},
+{name:"Caramel Brownie",price:280,category:"brownie",img:"image/caramel.jpg"}
+
+];
+
+function display(data){
+let box=document.getElementById("cakes");
+box.innerHTML="";
+data.forEach((c,i)=>{
+box.innerHTML+=`
+<div class="card">
+<img src="${c.img}">
+<h3>${c.name}</h3>
+<p>₹${c.price}</p>
+<button onclick="addToCart(${i})">Add to Cart</button>
+</div>`;
+});
+}
+
+function filter(type){
+if(type==="all") display(cakes);
+else display(cakes.filter(c=>c.category===type));
+}
+
+function addToCart(i){
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let exist=cart.find(x=>x.name===cakes[i].name);
+
+if(exist){exist.qty++;}
+else{cart.push({...cakes[i],qty:1});}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+alert("Added to cart");
+}
+
+display(cakes);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+
+<style>
+body{
+margin:0;
+font-family:Gill Sans;
+background: linear-gradient(135deg,#89c6c6,#e1eaea,#c3f0f0);
+background-size:400% 400%;
+animation:gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 20px;
+background:linear-gradient(to right,#5f9ea0,#89c6c6);
+}
+
+header button{
+padding:6px 10px;
+font-size:13px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background: linear-gradient(45deg, #6c7573, #4eb1aa);
+color:white;
+}
+
+.container{
+max-width:500px;
+margin:30px auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+padding-bottom:10px;
+border-bottom:1px solid #ccc;
+}
+
+.left{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+img{
+width:50px;
+height:50px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:5px;
+}
+
+.qty button{
+padding:4px 8px;
+border:none;
+border-radius:6px;
+background:#e1eaea;
+cursor:pointer;
+}
+
+.actions{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+}
+
+.actions button{
+padding:8px 12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* Clear Cart */
+.actions button:first-child{
+background:black;
+color:white;
+}
+
+/* Payment Button */
+.actions button:last-child{
+background: linear-gradient(45deg,#00c9ff,#92fe9d);
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>🛒 Cart</h2>
+<button onclick="goHome()">⬅ Home</button>
+</header>
+
+<div class="container" id="cartBox"></div>
+
+<script>
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+function render(){
+let box=document.getElementById("cartBox");
+box.innerHTML="";
+let total=0;
+
+cart.forEach((item,i)=>{
+total+=item.price*item.qty;
+
+box.innerHTML+=`
+<div class="item">
+<div class="left">
+<img src="${item.img}">
+<div>
+<p>${item.name}</p>
+<p>₹${item.price}</p>
+</div>
+</div>
+
+<div class="qty">
+<button onclick="dec(${i})">-</button>
+<span>${item.qty}</span>
+<button onclick="inc(${i})">+</button>
+</div>
+</div>`;
+});
+
+box.innerHTML+=`
+<h3>Total: ₹${total}</h3>
+
+<div class="actions">
+<button onclick="clearCart()">Clear Cart</button>
+<button onclick="goPayment()">💳 Continue to Payment</button>
+</div>`;
+}
+
+function inc(i){cart[i].qty++;update();}
+function dec(i){cart[i].qty>1?cart[i].qty--:cart.splice(i,1);update();}
+
+function update(){
+localStorage.setItem("cart",JSON.stringify(cart));
+render();
+}
+
+function clearCart(){
+localStorage.removeItem("cart");
+cart=[];
+render();
+}
+
+function goHome(){
+window.location.href="index.html";
+}
+
+function goPayment(){
+window.location.href="payment.html";
+}
+
+render();
+</script>
+
+</body>
+</html>
